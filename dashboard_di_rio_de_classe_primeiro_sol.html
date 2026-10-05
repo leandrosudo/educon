@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Primeiro Sol - Diário de Classe</title>
+    <!-- Google Fonts Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons (UMD bundle to prevent script load errors) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f5f9;
+        }
+
+        /* Custom Scrollbar for Sidebar and Table */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 3px;
+        }
+
+        /* Status Toggle Button Styles */
+        .status-btn-presence.active {
+            background-color: #ecfdf5;
+            color: #059669;
+            border-color: #a7f3d0;
+            font-weight: 700;
+        }
+        .status-btn-absence.active {
+            background-color: #fef2f2;
+            color: #dc2626;
+            border-color: #fca5a5;
+            font-weight: 700;
+        }
+        
+        .status-btn-presence:not(.active), .status-btn-absence:not(.active) {
+            background-color: #f8fafc;
+            color: #94a3b8;
+            border-color: #e2e8f0;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-800 flex flex-col md:flex-row antialiased relative">
+
+    <!-- SIDEBAR -->
+    <aside class="w-full md:w-64 bg-[#0a1226] text-slate-300 flex flex-col justify-between shrink-0 min-h-screen sticky top-0 z-30">
+        <div>
+            <!-- Header Brand Logo -->
+            <div class="p-6 flex items-center gap-3 border-b border-slate-800/60">
+                <div class="relative w-9 h-9 flex items-center justify-center shrink-0">
+                    <div class="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-600/30">
+                        <div class="absolute -top-1 w-3.5 h-3.5 bg-amber-400 rounded-full border-2 border-[#0a1226]"></div>
+                        <i data-lucide="book-open" class="w-4 h-4 text-white relative z-10 mt-0.5"></i>
+                    </div>
+                </div>
+                <div>
+                    <h1 class="text-base font-bold text-white tracking-tight leading-none">Primeiro Sol</h1>
+                    <span class="text-[9px] font-bold text-blue-400 tracking-widest uppercase">SISTEMA EDUCON</span>
+                </div>
+            </div>
+
+            <!-- User Profile Banner -->
+            <div class="p-4 mx-3 my-4 bg-slate-900/80 rounded-xl border border-slate-800/80 flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold text-sm shrink-0 shadow-md">
+                    RS
+                </div>
+                <div class="overflow-hidden">
+                    <h2 class="text-sm font-semibold text-white truncate">Prof. Roberto Silva</h2>
+                    <p class="text-[10px] text-slate-400 font-medium tracking-wide uppercase truncate">
+                        PROFESSOR REGENTE · 3º ANO A
+                    </p>
+                </div>
+            </div>
+
+            <!-- Navigation Links -->
+            <div class="px-3 space-y-1">
+                <p class="px-3 text-[10px] font-bold text-slate-500 uppercase tracking-widest my-2">NAVEGAÇÃO</p>
+                
+                <a href="#" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium bg-blue-600 text-white shadow-lg shadow-blue-600/20 transition-all">
+                    <i data-lucide="book-open" class="w-4 h-4"></i>
+                    <span>Diário de Classe</span>
+                </a>
+
+                <a href="#" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all">
+                    <i data-lucide="bar-chart-2" class="w-4 h-4"></i>
+                    <span>Lançamento de Notas</span>
+                </a>
+
+                <a href="#" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all">
+                    <i data-lucide="calendar" class="w-4 h-4"></i>
+                    <span>Meus Horários</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Sidebar Footer / Logout -->
+        <div class="p-4 border-t border-slate-800/60">
+            <button class="flex items-center gap-2.5 text-xs text-slate-400 hover:text-white transition-colors py-2 px-3 w-full rounded-lg hover:bg-slate-800/40">
+                <i data-lucide="log-out" class="w-4 h-4"></i>
+                <span>Sair do sistema</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full mb-16 md:mb-0">
+        
+        <!-- Header Section -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+            <div>
+                <p class="text-[11px] font-bold tracking-wider text-blue-600 uppercase mb-1">
+                    COLÉGIO PRIMEIRO SOL · DIÁRIO DE CLASSE
+                </p>
+                <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
+                    Olá, Prof. Roberto
+                </h1>
+                <p class="text-sm text-slate-500 mt-1">
+                    Acompanhe todas as matérias da sua turma regente.
+                </p>
+            </div>
+
+            <!-- Date Widget -->
+            <div class="self-start sm:self-auto bg-white px-4 py-2.5 rounded-xl border border-slate-200/80 shadow-sm flex items-center gap-3">
+                <i data-lucide="calendar" class="w-4 h-4 text-blue-600"></i>
+                <div>
+                    <span class="block text-[10px] text-slate-400 font-semibold uppercase leading-none">HOJE</span>
+                    <span class="text-xs font-bold text-slate-800">03 Out, 2026</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Internal Navigation Tabs -->
+        <div class="bg-slate-200/60 p-1 rounded-2xl flex flex-wrap sm:inline-flex gap-1 mb-6 text-xs font-medium text-slate-600">
+            <button class="flex items-center gap-2 px-4 py-2 rounded-xl bg-white text-blue-600 font-semibold shadow-sm transition-all">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-blue-600"></i>
+                <span>Chamada e frequência</span>
+            </button>
+            <button class="flex items-center gap-2 px-4 py-2 rounded-xl hover:text-slate-900 transition-all">
+                <i data-lucide="bar-chart-2" class="w-3.5 h-3.5"></i>
+                <span>Lançamento de notas</span>
+            </button>
+            <button class="flex items-center gap-2 px-4 py-2 rounded-xl hover:text-slate-900 transition-all">
+                <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
+                <span>Meus horários</span>
+            </button>
+        </div>
+
+        <!-- Form Card: Turma, Data e Conteúdo -->
+        <section class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/80 shadow-sm mb-6 space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                
+                <!-- Turma e Matéria Dropdown -->
+                <div class="md:col-span-2 space-y-1.5">
+                    <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                        TURMA E MATÉRIA
+                    </label>
+                    <div class="relative flex items-center bg-slate-50/80 border border-slate-200 rounded-xl px-3.5 py-2.5 focus-within:border-blue-600 focus-within:ring-2 focus-within:ring-blue-600/10 transition-all">
+                        <i data-lucide="book-open" class="w-4 h-4 text-slate-400 mr-3 shrink-0"></i>
+                        <select class="w-full bg-transparent text-xs sm:text-sm text-slate-800 font-semibold focus:outline-none appearance-none cursor-pointer pr-6">
+                            <option value="3a-lp" selected>3º Ano A · Língua Portuguesa</option>
+                            <option value="3a-mat">3º Ano A · Matemática</option>
+                            <option value="3a-his">3º Ano A · História</option>
+                        </select>
+                        <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 pointer-events-none absolute right-3.5"></i>
+                    </div>
+                </div>
+
+                <!-- Data da Aula Input -->
+                <div class="space-y-1.5">
+                    <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                        DATA DA AULA
+                    </label>
+                    <div class="relative flex items-center bg-slate-50/80 border border-slate-200 rounded-xl px-3.5 py-2.5 focus-within:border-blue-600 focus-within:ring-2 focus-within:ring-blue-600/10 transition-all">
+                        <i data-lucide="calendar" class="w-4 h-4 text-slate-400 mr-3 shrink-0"></i>
+                        <input 
+                            type="text" 
+                            value="03/10/2026" 
+                            class="w-full bg-transparent text-xs sm:text-sm text-slate-800 font-semibold focus:outline-none"
+                        />
+                        <i data-lucide="calendar-days" class="w-4 h-4 text-slate-400 pointer-events-none absolute right-3.5"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conteúdo Ministrado -->
+            <div class="space-y-1.5">
+                <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                    CONTEÚDO MINISTRADO NA AULA
+                </label>
+                <div class="relative flex items-center bg-slate-50/80 border border-slate-200 rounded-xl px-3.5 py-2.5 focus-within:border-blue-600 focus-within:ring-2 focus-within:ring-blue-600/10 transition-all">
+                    <i data-lucide="file-text" class="w-4 h-4 text-slate-400 mr-3 shrink-0"></i>
+                    <input 
+                        type="text" 
+                        value="Resolução de equações do 1º grau" 
+                        placeholder="Digite o conteúdo ministrado..." 
+                        class="w-full bg-transparent text-xs sm:text-sm text-slate-800 font-medium focus:outline-none placeholder:text-slate-400"
+                    />
+                </div>
+            </div>
+        </section>
+
+        <!-- Attendance Table Card -->
+        <section class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+            
+            <!-- Table Header Bar -->
+            <div class="p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100">
+                <div>
+                    <h2 class="text-base font-bold text-slate-900">Lista de presença</h2>
+                    <p id="attendance-summary" class="text-xs text-slate-500 font-medium mt-0.5">
+                        4 presentes · 1 falta
+                    </p>
+                </div>
+
+                <button id="save-btn" class="inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs py-2.5 px-4 rounded-xl shadow-md shadow-emerald-600/20 active:scale-95 transition-all">
+                    <i data-lucide="save" class="w-4 h-4"></i>
+                    <span>Salvar chamada</span>
+                </button>
+            </div>
+
+            <!-- Responsive Table Container -->
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse min-w-[600px]">
+                    <thead>
+                        <tr class="bg-slate-50/70 border-b border-slate-100 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+                            <th class="py-3 px-6 w-1/3">Nº / ALUNO</th>
+                            <th class="py-3 px-6 text-center w-1/4">STATUS DE PRESENÇA</th>
+                            <th class="py-3 px-6 w-5/12">OBSERVAÇÃO</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100 text-xs text-slate-700 font-medium">
+                        
+                        <!-- Student 1 -->
+                        <tr class="hover:bg-slate-50/50 transition-colors">
+                            <td class="py-3.5 px-6">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-slate-400 text-[11px] font-semibold w-4">01</span>
+                                    <div class="w-7 h-7 rounded-lg bg-blue-100 text-blue-700 text-[11px] font-bold flex items-center justify-center shrink-0">
+                                        AC
+                                    </div>
+                                    <span class="font-bold text-slate-900">Ana Clara Oliveira</span>
+                                </div>
+                            </td>
+                            <td class="py-3.5 px-6">
+                                <div class="flex items-center justify-center gap-1 bg-slate-100 p-1 rounded-xl max-w-[160px] mx-auto">
+                                    <button onclick="toggleAttendance(this, 'presence')" class="status-btn-presence active flex-1 py-1 px-2.5 rounded-lg border text-[11px] transition-all flex items-center justify-center gap-1">
+                                        <span>P</span> Presença
+                                    </button>
+                                    <button onclick="toggleAttendance(this, 'absence')" class="status-btn-absence flex-1 py-1 px-2.5 rounded-lg border text-[11px] transition-all flex items-center justify-center gap-1">
+                                        <span>F</span> Falta
+                                    </button>
+                                </div>
+                            </td>
+                            <td class="py-3.5 px-6">
+                                <input type="text" placeholder="Adicionar observação..." class="w-full bg-slate-50 border border-slate-200/80 rounded-lg px-3 py-1.5 text-xs text-slate-700 focus:outline-none focus:border-blue-500 focus:bg-white transition-all placeholder:text-slate-400" />
+                            </td>
+                        </tr>
+
+                        <!-- Student 2 -->
+                        <tr class="hover:bg-slate-50/50 transition-colors">
+                            <td class="py-3.5 px-6">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-slate-400 text-[11px] font-semibold w-4">02</span>
+                                    <div class="w-7 h-7 rounded-lg bg-blue-100 text-blue-700 text-[11px] font-bold flex items-center justify-center shrink-0">
+                                        BH
+                                    </div>
+                                    <span class="font-bold text-slate-900">Bruno Henrique Lima</span>
+                                </div>
+                            </td>
+                            <td class="py-3.5 px-6">
+                                <div class="flex items-center justify-center gap-1 bg-slate-100 p-1 rounded-xl max-w-[160px] mx-auto">
+                                    <button onclick="toggleAttendance(this, 'presence')" class="status-btn-presence active flex-1 py-1 px-2.5 rounded-lg border text-[11px] transition-all flex items-center justify-center gap-1">
+                                        <span>P</span> Presença
+                                    </button>
+                                    <button onclick="toggleAttendance(this, 'absence')" class="status-btn-absence flex-1 py-1 px-2.5 rounded-lg border text-[11px] transition-all flex items-center justify-center gap-1">
+                                        <span>F</span> Falta
+                                    </button>
+                                </div>
+                            </td>
+                            <td class="py-3.5 px-6">
+                                <input type="text" placeholder="Adicionar observação..." class="w-full bg-slate-50 border border-slate-200/80 rounded-lg px-3 py-1.5 text-xs text-slate-700 focus:outline-none focus:border-blue-500 focus:bg-white transition-all placeholder:text-slate-400" />
+                            </td>
+                        </tr>
+
+                        <!-- Student 3 -->
+                        <tr class="hover:bg-slate-50/50 transition-colors">
+                            <td class="py-3.5 px-6">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-slate-400 text-[11px] font-semibold w-4">03</span>
+                                    <div class="w-7 h-7 rounded-lg bg-blue-100 text-blue-700 text-[11px] font-bold flex items-center justify-center shrink-0">
+                                        CS
+                                    </div>
+                                    <span class="font-bold text-slate-900">Camila Souza Martins</span>
+                                </div>
+                            </td>
+                            <td class="py-3.5 px-6">
+                                <div class="flex items-center justify-center gap-1 bg-slate-100 p-1 rounded-xl max-w-[160px] mx-auto">
+                                    <button onclick="toggleAttendance(this, 'presence')" class="status-btn-presence flex-1 py-1 px-2.5 rounded-lg border text-[11px] transition-all flex items-center justify-center gap-1">
+                                        <span>P</span> Presença
+                                    </button>
+                                    <button onclick="toggleAttendance(this, 'absence')" class="status-btn-absence active flex-1 py-1 px-2.5 rounded-lg border text-[11px] transition-all flex items-center justify-center gap-1">
+                                        <span>F</span> Falta
+                                    </button>
+                                </div>
+                            </td>
+                            <td class="py-3.5 px-6">
+                                <input type="text" placeholder="Adicionar observação..." class="w-full bg-slate-50 border border-slate-200/80 rounded-lg px-3 py-1.5 text-xs text-slate-700 focus:outline-none focus:border-blue-500 focus:bg-white transition-all placeholder:text-slate-400" />
+                            </td>
+                        </tr>
+
+                        <!-- Student 4 -->
+                        <tr class="hover:bg-slate-50/50 transition-colors">
+                            <td class="py-3.5 px-6">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-slate-400 text-[11px] font-semibold w-4">04</span>
+                                    <div class="w-7 h-7 rounded-lg bg-blue-100 text-blue-700 text-[11px] font-bold flex items-center justify-center shrink-0">
+                                        DA
+                                    </div>
+                                    <span class="font-bold text-slate-900">Daniel Alves Pereira</span>
+                                </div>
+                            </td>
+                            <td class="py-3.5 px-6">
+                                <div class="flex items-center justify-center gap-1 bg-slate-100 p-1 rounded-xl max-w-[160px] mx-auto">
+                                    <button onclick="toggleAttendance(this, 'presence')" class="status-btn-presence active flex-1 py-1 px-2.5 rounded-lg border text-[11px] transition-all flex items-center justify-center gap-1">
+                                        <span>P</span> Presença
+                                    </button>
+                                    <button onclick="toggleAttendance(this, 'absence')" class="status-btn-absence flex-1 py-1 px-2.5 rounded-lg border text-[11px] transition-all flex items-center justify-center gap-1">
+                                        <span>F</span> Falta
+                                    </button>
+                                </div>
+                            </td>
+                            <td class="py-3.5 px-6">
+                                <input type="text" placeholder="Adicionar observação..." class="w-full bg-slate-50 border border-slate-200/80 rounded-lg px-3 py-1.5 text-xs text-slate-700 focus:outline-none focus:border-blue-500 focus:bg-white transition-all placeholder:text-slate-400" />
+                            </td>
+                        </tr>
+
+                        <!-- Student 5 -->
+                        <tr class="hover:bg-slate-50/50 transition-colors">
+                            <td class="py-3.5 px-6">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-slate-400 text-[11px] font-semibold w-4">05</span>
+                                    <div class="w-7 h-7 rounded-lg bg-blue-100 text-blue-700 text-[11px] font-bold flex items-center justify-center shrink-0">
+                                        ER
+                                    </div>
+                                    <span class="font-bold text-slate-900">Eduarda Rocha Santos</span>
+                                </div>
+                            </td>
+                            <td class="py-3.5 px-6">
+                                <div class="flex items-center justify-center gap-1 bg-slate-100 p-1 rounded-xl max-w-[160px] mx-auto">
+                                    <button onclick="toggleAttendance(this, 'presence')" class="status-btn-presence active flex-1 py-1 px-2.5 rounded-lg border text-[11px] transition-all flex items-center justify-center gap-1">
+                                        <span>P</span> Presença
+                                    </button>
+                                    <button onclick="toggleAttendance(this, 'absence')" class="status-btn-absence flex-1 py-1 px-2.5 rounded-lg border text-[11px] transition-all flex items-center justify-center gap-1">
+                                        <span>F</span> Falta
+                                    </button>
+                                </div>
+                            </td>
+                            <td class="py-3.5 px-6">
+                                <input type="text" placeholder="Adicionar observação..." class="w-full bg-slate-50 border border-slate-200/80 rounded-lg px-3 py-1.5 text-xs text-slate-700 focus:outline-none focus:border-blue-500 focus:bg-white transition-all placeholder:text-slate-400" />
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FLOATING PROFILE SELECTOR -->
+    <div class="fixed bottom-4 right-4 z-40 bg-white shadow-xl rounded-full p-1 border border-slate-200/80 flex items-center gap-1 text-xs font-semibold">
+        <button onclick="selectProfile(this)" class="px-3.5 py-1.5 rounded-full text-slate-600 hover:text-slate-900 transition-all">
+            Coordenador
+        </button>
+        <button onclick="selectProfile(this)" class="profile-btn-active px-3.5 py-1.5 rounded-full bg-[#0d1527] text-white transition-all shadow-sm">
+            Professor
+        </button>
+        <button onclick="selectProfile(this)" class="px-3.5 py-1.5 rounded-full text-slate-600 hover:text-slate-900 transition-all">
+            Aluno
+        </button>
+    </div>
+
+    <script>
+        // Initialize Lucide icons safely
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        });
+
+        // Toggle Presence and Absence buttons
+        function toggleAttendance(button, type) {
+            const container = button.parentElement;
+            const presenceBtn = container.querySelector('.status-btn-presence');
+            const absenceBtn = container.querySelector('.status-btn-absence');
+
+            if (type === 'presence') {
+                presenceBtn.classList.add('active');
+                absenceBtn.classList.remove('active');
+            } else {
+                absenceBtn.classList.add('active');
+                presenceBtn.classList.remove('active');
+            }
+
+            updateSummary();
+        }
+
+        // Dynamic Attendance Counter
+        function updateSummary() {
+            const activePresences = document.querySelectorAll('.status-btn-presence.active').length;
+            const activeAbsences = document.querySelectorAll('.status-btn-absence.active').length;
+            const summaryEl = document.getElementById('attendance-summary');
+            
+            summaryEl.textContent = `${activePresences} ${activePresences === 1 ? 'presente' : 'presentes'} · ${activeAbsences} ${activeAbsences === 1 ? 'falta' : 'faltas'}`;
+        }
+
+        // Profile switcher visual feedback
+        function selectProfile(selectedBtn) {
+            const container = selectedBtn.parentElement;
+            const buttons = container.querySelectorAll('button');
+            
+            buttons.forEach(btn => {
+                btn.className = 'px-3.5 py-1.5 rounded-full text-slate-600 hover:text-slate-900 transition-all';
+            });
+
+            selectedBtn.className = 'px-3.5 py-1.5 rounded-full bg-[#0d1527] text-white transition-all shadow-sm';
+        }
+
+        // Save notification
+        document.getElementById('save-btn').addEventListener('click', () => {
+            const btn = document.getElementById('save-btn');
+            const originalHTML = btn.innerHTML;
+            
+            btn.innerHTML = `<i data-lucide="check" class="w-4 h-4"></i><span>Chamada Salva!</span>`;
+            btn.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
+            btn.classList.add('bg-blue-600');
+            
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+
+            setTimeout(() => {
+                btn.innerHTML = originalHTML;
+                btn.classList.remove('bg-blue-600');
+                btn.classList.add('bg-emerald-600', 'hover:bg-emerald-700');
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons();
+                }
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
